@@ -124,6 +124,7 @@ export default class App extends Component {
       {
         navigationOptions: ({ navigation }) => ({
           tabBarOnPress: ({ navigation, defaultHandler }) => {
+            /////////////////////////////////////////////////////////////////////////
             if (navigation.state.routeName == 'Group') {
               //路由到Group時
               navigation.dispatch(navigateAction); //用dispatch執行action

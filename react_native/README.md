@@ -331,7 +331,7 @@ Can't perform a React state update on an unmounted component. This is a no-op, b
 使用 firebase ， npm install native-base@2.11.0 ， npm install react-navigation@2.18.2 ， npm install react-native-vector-icons@6.2.0 ， npm install react-native-swipeout ， npm install react-native-modalbox ， npm install apsl-react-native-button
 ，rn-fetch-blob，react-native-image-crop-picker
 
-#### Comprehensive_instance
+#### Comprehensive_instance (like那邊有bug 並且已經在下一篇修改
 
 ```
 "dependencies": {
@@ -360,10 +360,11 @@ Can't perform a React state update on an unmounted component. This is a no-op, b
 
 ```
 this.setState後面如果想接函式(ex: .then)，用this.setState({},()=>{})
-還有一個小Bug : 1.按like後取消刊登 ， 結果like的對象還在，2.自己也必須禁止按自己like
+還有一個小Bug : 1.按like後取消刊登 ， 結果like的對象還在，2.自己也必須禁止按自己like，
 ```
 
 ---
+##### Share
 ```
 1.setState array object 看這篇
 https://www.freecodecamp.org/forum/t/reactjs-using-setstate-to-update-a-single-property-on-an-object/146772/3

@@ -36,7 +36,6 @@ export default class Share extends Component {
     this.props.navigation.navigate('PrivatesScreen', { paramName: pass_arr });
   };
   handle = (introduction, thisID) => {
-    console.log('intro : ' + this.state.like_object[thisID].intro);
     let newState = Object.assign({}, this.state); //複製this.state
     newState.like_object[thisID].likeState = !newState.like_object[thisID]
       .likeState;
@@ -52,7 +51,6 @@ export default class Share extends Component {
         ? pass_arr.push(this.state.like_object[i])
         : null;
     }
-    console.log('final : ' + pass_arr); //傳遞到另一個頁面的值
   };
 
   componentDidMount() {
@@ -70,8 +68,9 @@ export default class Share extends Component {
                   ...this.state.like_object,
                   {
                     ImagePath: snapshot.val().image.img,
-                    intro: snapshot.val().name.me,
-                    likeState: false
+                    name: snapshot.val().name.me,
+                    likeState: false,
+                    object_id: snapshot.val().uid
                   }
                 ]
               });
@@ -90,7 +89,7 @@ export default class Share extends Component {
             {this.state.like_object.map((val, key) => {
               return (
                 <View key={key} style={styles.box}>
-                  <TouchableOpacity onPress={() => this.handle(val.intro, key)}>
+                  <TouchableOpacity onPress={() => this.handle(val.name, key)}>
                     <Image
                       source={{ uri: val.ImagePath }}
                       style={styles.imagestyle}
@@ -107,7 +106,7 @@ export default class Share extends Component {
                           color="rgb(90, 253, 88)"
                         />
                       ) : null}
-                      {this.state.like_object[key].intro}
+                      {this.state.like_object[key].name}
                     </Text>
                   </View>
                 </View>

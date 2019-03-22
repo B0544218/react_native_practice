@@ -114,7 +114,7 @@ export default class App extends React.Component {
               //this.props.navigation.navigate('drawer');
             } //轉到Drawer
           >
-            登入
+            登录
           </Button>
           <Button
             style={{ backgroundColor: '#e74c3c', borderWidth: 0, margin: 10 }}

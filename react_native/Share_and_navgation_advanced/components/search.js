@@ -29,45 +29,53 @@ export default class Search extends Component {
   }
   componentDidMount() {
     this.props.navigation.addListener('willFocus', () => {
+      var temp = [];
       firebase
         .database()
         .ref('users/' + firebase.auth().currentUser.uid + '/like')
         .once('value', snapshot => {
           //得出先前的like有哪些人 並存在who_like
           for (i in snapshot.val()) {
-            this.setState({
-              who_like: [...this.state.who_like, snapshot.val()[i]['id']]
-            });
+            temp.push(snapshot.val()[i]['id']);
           }
-        });
+        })
+        .then(
+          this.setState({
+            who_like: temp
+          })
+        )
+        .then(
+          firebase //印出manage_AllPublish_true的所有成員 用once 因為this.setState那樣寫 如果用on 則會重複增加
+            .database()
+            .ref('manage_AllPublish_true')
+            .once('value', snapshot => {
+              const ob = snapshot.val();
+              for (i in ob) {
+                console.log('publish : ' + ob[i]['id']);
+                console.log('this.state.who_like : ' + this.state.who_like);
+                if (this.state.who_like.includes(ob[i]['id'])) {
+                  console.log('like : ' + ob[i]['id']);
+                  //假如ob[i][id]跟who_like中的某一個值一樣則不列入FlatList
+                  continue;
+                } else {
+                  console.log('no like : ' + ob[i]['id']);
+                  firebase
+                    .database()
+                    .ref('users/' + ob[i]['id'] + '/user_data/')
+                    .once('value', snapshot => {
+                      this.setState({
+                        FlatData: [...this.state.FlatData, snapshot.val()]
+                      });
+                    });
+                }
+              }
+            })
+        );
       firebase //讀取檢查上一狀態為刊登還是取消 用on 因為監控案的狀態
         .database()
         .ref('users/' + firebase.auth().currentUser.uid + '/publish/pb')
         .once('value', snapshot => {
           this.setState({ publish_state: snapshot.val() });
-        });
-
-      firebase //印出manage_AllPublish_true的所有成員 用once 因為this.setState那樣寫 如果用on 則會重複增加
-        .database()
-        .ref('manage_AllPublish_true')
-        .once('value', snapshot => {
-          const ob = snapshot.val();
-          for (i in ob) {
-            if (this.state.who_like.includes(ob[i]['id'])) {
-              //假如ob[i][id]跟who_like中的某一個值一樣則不列入FlatList
-              continue;
-            } else {
-              console.log(ob[i]['id']);
-              firebase
-                .database()
-                .ref('users/' + ob[i]['id'] + '/user_data/')
-                .once('value', snapshot => {
-                  this.setState({
-                    FlatData: [...this.state.FlatData, snapshot.val()]
-                  });
-                });
-            }
-          }
         });
     });
     this.props.navigation.addListener('willBlur', () => {
