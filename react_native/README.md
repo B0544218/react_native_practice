@@ -1,20 +1,25 @@
 # React_Native0.57.8
 
 ## Genymotion react-native init --version 0.57.8 projectname
+
 ```
-設定->語法與輸入設定 : 開啟實體鍵盤 
-openGAPP(Genymotion右上角) 下載Play商店 -> 下載keyboard中文版 
+設定->語法與輸入設定 : 開啟實體鍵盤
+openGAPP(Genymotion右上角) 下載Play商店 -> 下載keyboard中文版
 ```
+
 ---
 
 cd project -> react-native start
 cd project -> react-native run-android
 
 ---
-#### flex布局
+
+#### flex 布局
+
 ```
 https://github.com/crazycodeboy/RNStudyNotes/blob/master/React%20Native%E5%B8%83%E5%B1%80/React%20Native%E5%B8%83%E5%B1%80%E8%AF%A6%E7%BB%86%E6%8C%87%E5%8D%97/React%20Native%E5%B8%83%E5%B1%80%E8%AF%A6%E7%BB%86%E6%8C%87%E5%8D%97.md
 ```
+
 ---
 
 基本使用 Button 模板
@@ -142,6 +147,7 @@ MainStack 底下放 主要節點 以及 分支節點 ，他們各有自己的首
 ```
 
 ```
+
 ---
 
 ## 綜合練習
@@ -196,6 +202,7 @@ require('core-js/fn/set');
 require('core-js/fn/array/find');
 //使用firebase web sdk 時候必須在index中導入
 ```
+
 ###### 進行註冊 auth()註冊
 
 首先到 Firebase 上的 Authentication 的登入方式 打開 "電子郵件/密碼"
@@ -331,7 +338,7 @@ Can't perform a React state update on an unmounted component. This is a no-op, b
 使用 firebase ， npm install native-base@2.11.0 ， npm install react-navigation@2.18.2 ， npm install react-native-vector-icons@6.2.0 ， npm install react-native-swipeout ， npm install react-native-modalbox ， npm install apsl-react-native-button
 ，rn-fetch-blob，react-native-image-crop-picker
 
-#### Comprehensive_instance (like那邊有bug 並且已經在下一篇修改
+#### Comprehensive_instance (like 那邊有 bug 並且已經在下一篇修改
 
 ```
 "dependencies": {
@@ -340,6 +347,7 @@ Can't perform a React state update on an unmounted component. This is a no-op, b
     "native-base": "^2.11.0",
     "react": "16.6.3",
     "react-native": "0.57.8",
+    "react-native-datepicker": "^1.7.2",
     "react-native-image-crop-picker": "^0.22.0",
     "react-native-modalbox": "^1.7.1",
     "react-native-swipeout": "^2.3.6",
@@ -360,11 +368,13 @@ Can't perform a React state update on an unmounted component. This is a no-op, b
 
 ```
 this.setState後面如果想接函式(ex: .then)，用this.setState({},()=>{})
-還有一個小Bug : 1.按like後取消刊登 ， 結果like的對象還在，2.自己也必須禁止按自己like，
+還有一個小Bug : 1.按like後取消刊登 ， 結果like的對象還在，2.自己也必須禁止按自己like，3.Group那邊，如果按送出太快，資料庫會重複寫進2次
 ```
 
 ---
+
 ##### Share
+
 ```
 1.setState array object 看這篇
 https://www.freecodecamp.org/forum/t/reactjs-using-setstate-to-update-a-single-property-on-an-object/146772/3
@@ -384,4 +394,11 @@ https://www.freecodecamp.org/forum/t/reactjs-using-setstate-to-update-a-single-p
   // navigate can have a nested navigate action that will be run inside the child router
   action: NavigationActions.navigate({ routeName: 'GroupsScreen' }) //想要路由到的子router
 });
+```
+
+#### Datepicker
+
+```
+npm install react-native-datepicker
+1. 注意使用Datepicker 根據裝置環境 會有時差問題
 ```
