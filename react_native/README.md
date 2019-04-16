@@ -368,7 +368,6 @@ Can't perform a React state update on an unmounted component. This is a no-op, b
 
 ```
 this.setState後面如果想接函式(ex: .then)，用this.setState({},()=>{})
-還有一個小Bug : 1.按like後取消刊登 ， 結果like的對象還在，2.自己也必須禁止按自己like，3.Group那邊，如果按送出太快，資料庫會重複寫進2次
 ```
 
 ---
@@ -401,4 +400,11 @@ https://www.freecodecamp.org/forum/t/reactjs-using-setstate-to-update-a-single-p
 ```
 npm install react-native-datepicker
 1. 注意使用Datepicker 根據裝置環境 會有時差問題
+```
+
+#### Section
+
+```
+還有Bug : 1.按like後取消刊登 ， 結果like的對象還在，2.自己也必須禁止按自己like，3.Group那邊，如果按送出太快，資料庫會重複寫進2次 4.快速來回切換tab navigation ，search和like介面會重複出現項目(麻煩參考group介面的作法)
+
 ```
