@@ -408,3 +408,5 @@ npm install react-native-datepicker
 還有Bug : 1.按like後取消刊登 ， 結果like的對象還在，2.自己也必須禁止按自己like，3.Group那邊，如果按送出太快，資料庫會重複寫進2次 4.快速來回切換tab navigation ，search和like介面會重複出現項目(麻煩參考group介面的作法)
 
 ```
+#### 簡易Modal
+
