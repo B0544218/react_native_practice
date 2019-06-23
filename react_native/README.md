@@ -408,5 +408,30 @@ npm install react-native-datepicker
 還有Bug : 1.按like後取消刊登 ， 結果like的對象還在，2.自己也必須禁止按自己like，3.Group那邊，如果按送出太快，資料庫會重複寫進2次 4.快速來回切換tab navigation ，search和like介面會重複出現項目(麻煩參考group介面的作法)
 
 ```
-#### 簡易Modal
 
+#### 簡易 Modal
+
+####完成 loading(完成接受 刪除 取消)
+
+```
+完成是用react-native-loading-spinner-overlay
+  "dependencies": {
+    "apsl-react-native-button": "^3.1.1",
+    "firebase": "^5.8.4",
+    "native-base": "^2.11.0",
+    "react": "16.6.3",
+    "react-native": "0.57.8",
+    "react-native-background-timer": "^2.1.1",
+    "react-native-datepicker": "^1.7.2",
+    "react-native-image-crop-picker": "^0.22.0",
+    "react-native-loading-spinner-overlay": "^1.0.1",
+    "react-native-modal": "^9.0.0",
+    "react-native-modalbox": "^1.7.1",
+    "react-native-pickers": "^2.0.0",
+    "react-native-svg": "^9.4.0",
+    "react-native-swipeout": "^2.3.6",
+    "react-native-vector-icons": "^6.2.0",
+    "react-navigation": "^2.18.2",
+    "rn-fetch-blob": "^0.10.15"
+  }
+```
