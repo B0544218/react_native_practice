@@ -411,7 +411,7 @@ npm install react-native-datepicker
 
 #### 簡易 Modal
 
-####完成 loading(完成接受 刪除 取消)
+#### 完成 loading(完成接受 刪除 取消)
 
 ```
 完成是用react-native-loading-spinner-overlay
