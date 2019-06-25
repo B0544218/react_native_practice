@@ -414,6 +414,7 @@ npm install react-native-datepicker
 #### 完成 loading(完成接受 刪除 取消)
 
 ```
+適用於6_25後commit的專案
 完成是用react-native-loading-spinner-overlay
   "dependencies": {
     "apsl-react-native-button": "^3.1.1",
