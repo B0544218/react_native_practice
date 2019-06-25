@@ -428,7 +428,6 @@ npm install react-native-datepicker
     "react-native-modal": "^9.0.0",
     "react-native-pickers": "^2.0.0",
     "react-native-svg": "^9.4.0",
-    "react-native-swipeout": "^2.3.6",
     "react-native-vector-icons": "^6.2.0",
     "react-navigation": "^2.18.2",
     "rn-fetch-blob": "^0.10.15"
