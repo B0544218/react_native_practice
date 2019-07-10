@@ -258,6 +258,16 @@ return( ...
 
 rn-fetch-blob 版本 0.10.15
 
+要加個compileOptions
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+    ..................................
+}
 ##### 另外記得要打開 React Native Debugger(在後台交互篇有使用方式) 才可以上傳到 firebase
 
 RNFetchBlob.fs.readFile() 讀取圖片位址並轉呈 base64
