@@ -444,3 +444,14 @@ npm install react-native-datepicker
     "rn-fetch-blob": "^0.10.15"
   }
 ```
+```
+使用lottie套件時 要在android/app/build.gradle中加上
+android {
+    ...
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+    ...
+}
+```
