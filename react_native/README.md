@@ -455,3 +455,32 @@ android {
     ...
 }
 ```
+## React Native QR code Scanner Setup
+
+```
+1.npm install react-native-camera@2.6.0
+參考react-native-camera官網
+2.react-native link
+3.android {
+  ...
+  defaultConfig {
+    ...
+    missingDimensionStrategy 'react-native-camera', 'general' <-- insert this line
+  }
+}
+4.
+<uses-permission android:name="android.permission.CAMERA"/>
+<uses-permission android:name="android.permission.RECORD_AUDIO"/>
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+安裝完上面後再到react native qr code scanner
+5.npm install react-native-qrcode-scanner@1.2.1
+6.react-native link
+錯誤解決方式參考stackoverflow
+7.
+cd android -> ./gradlew clean -> cd ..
+8.
+npm install @react-native-community/async-storage  (本人測試為1.6.1
+react-native link @react-native-community/async-storage
+
+```
