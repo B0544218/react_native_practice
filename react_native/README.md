@@ -484,3 +484,29 @@ npm install @react-native-community/async-storage  (本人測試為1.6.1
 react-native link @react-native-community/async-storage
 
 ```
+## React Native Push Notification ce
+android/build.gradle
+```
+根據文黨安裝步驟
+
+補充1:
+buildscript {
+  ext {
+	      googlePlayServicesVersion = "16.1.0" // default: "+"
+        firebaseVersion = "17.6.0" // default: "+"
+        buildToolsVersion = "27.0.3"
+        minSdkVersion = 16
+        compileSdkVersion = 27
+        targetSdkVersion = 26
+        supportLibVersion = "27.1.1"
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.1.4'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+補充2:  "react-native-push-notification-ce": "^3.1.7"
+
+  ```
