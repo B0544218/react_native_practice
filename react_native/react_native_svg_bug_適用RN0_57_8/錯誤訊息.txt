@@ -1,0 +1,17 @@
+> Task :react-native-svg:compileDebugJavaWithJavac FAILED
+C:\Users\user\Desktop\projectname\node_modules\react-native-svg\android\src\main\java\com\horcrux\svg\TSpanView.java:1118: error: cannot find symbol
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                                                        ^
+  symbol:   variable P
+  location: class VERSION_CODES
+C:\Users\user\Desktop\projectname\node_modules\react-native-svg\android\src\main\java\com\horcrux\svg\TSpanView.java:1119: error: no suitable method found for create(Typeface,int,boolean)
+            typeface = Typeface.create(typeface, weight, isItalic);
+                               ^
+    method Typeface.create(String,int) is not applicable
+      (actual and formal argument lists differ in length)
+    method Typeface.create(Typeface,int) is not applicable
+      (actual and formal argument lists differ in length)
+2 errors
+
+
+FAILURE: Build failed with an exception.
