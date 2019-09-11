@@ -1,3 +1,5 @@
+P.S.  版本 "react-native-svg": "^9.4.0" 
+
 > Task :react-native-svg:compileDebugJavaWithJavac FAILED
 C:\Users\user\Desktop\projectname\node_modules\react-native-svg\android\src\main\java\com\horcrux\svg\TSpanView.java:1118: error: cannot find symbol
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
