@@ -446,6 +446,7 @@ npm install react-native-datepicker
 ```
 ```
 使用lottie套件時 要在android/app/build.gradle中加上
+請記得這裡是用    "lottie-react-native": "2.5.11"
 android {
     ...
     compileOptions {
