@@ -512,3 +512,12 @@ buildscript {
 補充2:  "react-native-push-notification-ce": "^3.1.7"
 
   ```
+  ## Google Map Api
+  ```
+  react-native-maps  增加google API, 
+	將compile(':react-native-maps')改成
+	compile(project(':react-native-maps')){
+      		exclude group: 'com.google.android.gms', module: 'play-services-base'
+  	}
+  ```
+
