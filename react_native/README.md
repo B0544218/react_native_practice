@@ -6,7 +6,10 @@
 設定->語法與輸入設定 : 開啟實體鍵盤
 openGAPP(Genymotion右上角) 下載Play商店 -> 下載keyboard中文版
 ```
-
+```
+Android的工作室 - 3.0.1版升級3.4.0版
+到android studio底下找 android gradle plugin update recommended
+```
 ---
 
 cd project -> react-native start
