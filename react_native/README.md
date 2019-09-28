@@ -497,7 +497,7 @@ android/build.gradle
 補充1:
 buildscript {
   ext {
-	      googlePlayServicesVersion = "16.1.0" // default: "+"
+	googlePlayServicesVersion = "16.1.0" // default: "+"
         firebaseVersion = "17.6.0" // default: "+"
         buildToolsVersion = "27.0.3"
         minSdkVersion = 16
@@ -513,7 +513,7 @@ buildscript {
     }
 }
 補充2:  "react-native-push-notification-ce": "^3.1.7"
-
+補充3:  "android8使用者 要到android/build.gradle改targetSdkVersion = 25"
   ```
   ## Google Map Api
   ```
