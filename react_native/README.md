@@ -488,6 +488,8 @@ cd android -> ./gradlew clean -> cd ..
 npm install @react-native-community/async-storage  (本人測試為1.6.1
 react-native link @react-native-community/async-storage
 
+Component的屬性showMarker、onRead、reactivate、reactivateTimeout
+
 ```
 ## React Native Push Notification ce
 android/build.gradle
