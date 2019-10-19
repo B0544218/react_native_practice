@@ -525,4 +525,61 @@ buildscript {
       		exclude group: 'com.google.android.gms', module: 'play-services-base'
   	}
   ```
+  ## 專案套件
+```
+{
+  "name": "section",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest"
+  },
+  "dependencies": {
+    "apsl-react-native-button": "^3.1.1",
+    "firebase": "^5.8.4",
+    "lottie-react-native": "2.5.11",
+    "moment": "^2.24.0",
+    "native-base": "^2.11.0",
+    "react": "16.6.3",
+    "react-native": "0.57.8",
+    "react-native-countdown-component": "^2.5.0",
+    "react-native-datepicker": "^1.7.2",
+    "react-native-fingerprint-scanner": "^2.6.1",
+    "react-native-gifted-chat": "^0.9.11",
+    "react-native-image-crop-picker": "^0.24.1",
+    "react-native-linear-gradient": "^2.5.6",
+    "react-native-loading-spinner-overlay": "^1.0.1",
+    "react-native-modal": "^9.0.0",
+    "react-native-parallax-scroll-view": "^0.21.3",
+    "react-native-pickers": "^2.0.0",
+    "react-native-push-notification-ce": "^3.1.7",
+    "react-native-qrcode": "^0.2.7",
+    "react-native-star-rating": "^1.1.0",
+    "react-native-svg": "^9.5.1",
+    "react-native-textinput-effects": "^0.5.1",
+    "react-native-timeline-listview": "^0.2.3",
+    "react-native-vector-icons": "^6.2.0",
+    "react-navigation": "^2.18.2",
+    "rn-fetch-blob": "0.10.14",
+    "socket.io-client": "2.1.1"
+  },
+  "devDependencies": {
+    "babel-jest": "24.1.0",
+    "jest": "24.1.0",
+    "metro-react-native-babel-preset": "0.52.0",
+    "react-test-renderer": "16.6.3"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}
+需要手動安裝部分:
+icon
+notification(firebase註冊)
+image-crop
+lottie
+react-native-svg(修改檔案)
+react-native-pickers(修改)
 
+```
