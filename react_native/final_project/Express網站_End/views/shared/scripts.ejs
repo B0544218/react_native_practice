@@ -1,0 +1,91 @@
+<!-- jquery.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<!-- popper.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+  integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<!-- chart.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+
+<!-- axios.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-firestore.js"></script>
+<!-- real time database -->
+<!-- <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script> -->
+<script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
+
+<!-- sweetalert.js -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+<!-- 基本版bootstrap-datetimepicker.min.js -->
+<!-- 這行必要 -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+  integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+<!-- bootstrap.js -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+  integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+<!-- Latest compiled and minified JavaScript  selector家的 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    // TODO: 替換成你的Firebase專案設定
+    // apiKey: "AIzaSyDjH9EGfArZQ6O55sLvVfukTQk3A5S4XEA",
+    // authDomain: "express-test01.firebaseapp.com",
+    // databaseURL: "https://express-test01.firebaseio.com",
+    // projectId: "express-test01",
+    // storageBucket: "express-test01.appspot.com",
+    // messagingSenderId: "673062584435",
+    // appId: "1:673062584435:web:500f60d96f1c31a7"
+    apiKey: "AIzaSyCORuA8jSGz0CnNt6vfnNs0TYK2ctwsghE",
+    authDomain: "projectname2.firebaseapp.com",
+    databaseURL: "https://projectname2.firebaseio.com",
+    projectId: "projectname2",
+    storageBucket: "projectname2.appspot.com",
+    messagingSenderId: "62256666226",
+    appId: "1:62256666226:web:9d27261fce1226c7bbd4eb"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  //   const db = firebase.firestore();
+  // const db = firebase.database();
+  //測試    之前抓資料的方式    對了 這隻帳號是cy32321503
+  // db.ref("/users")
+  //   .once("value")
+  //   .then(function(docs) {
+  //     docs.forEach(function(doc) {
+  //       const user = doc.val();
+
+  //       console.log("doc.val()", user);
+  //       console.log("這是userID", user.user_data.uid);
+  //       console.log("這是userName", user.user_data.name);
+  //       console.log("這是userCategory", user.Volunteer.v);
+  //     });
+  //   })
+  //   .catch(function(err) {
+  //     console.log("資料庫現在全面封閉，因此不能用前端抓");
+  //   });
+</script>
+<!-- 如果登出了，直接回首頁 -->
+<script>
+  // const authState=<%- auth.islogin %>;
+  // if (!authState) {
+  //   window.location = "/";
+  // }
+  // $(document).ready(function(){
+  // const authState=<%- auth.islogin %>;
+  // console.log(authState,"AUTHSTATE>>>>>")
+  // if (!authState) {
+  //   window.location = "/";
+  // };
+  // });
+</script>
+
+<script src="/javascripts/main.js"></script>

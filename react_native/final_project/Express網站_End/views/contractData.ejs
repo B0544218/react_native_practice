@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <% include shared/head %>
+  </head>
+
+  <body>
+    <% include shared/navbar %>
+    <!-- 如果登出了，直接回首頁 -->
+    <!-- <script>
+    if (!<%- auth.islogin %>) {
+      window.location = "/";
+    }
+  </script> -->
+    <header id="editHeader" class="jumbotron header">
+      <div class="container">
+        <h1>委託詳細資料</h1>
+      </div>
+    </header>
+    <section class="py-3">
+    <form id="editProductForm" class="container">      
+      <%contracts.forEach(doc=>{ %>
+      <div class="form-group">
+            
+          <div class="form-group my-4">
+            <label for="contractID">合約ID</label>
+            <input
+              type="text"
+              id="contractID"
+              class="form-control"
+              value="<%= doc.contract_id %>"
+              disabled
+              required
+            />
+          </div>
+          <div class="form-group my-4">
+                <label for="serverID">服務員ID</label>
+                <input
+                  type="text"
+                  id="serverID"
+                  class="form-control"
+                  value="<%= doc.server %>"
+                  disabled
+                  required
+                />
+              </div>
+            <div class="form-group my-4">
+                    <label for="serverName">服務員名字</label>
+                    <input
+                      type="text"
+                      id="serverName"
+                      class="form-control"
+                      value="<%= doc.server_name %>"
+                      disabled
+                      required
+                    />
+                  </div>
+            <div class="form-group my-4">
+                        <label for="be_caredID">受照顧者ID</label>
+                        <input
+                          type="text"
+                          id="be_caredID"
+                          class="form-control"
+                          value="<%= doc.be_cared %>"
+                          disabled
+                          required
+                        />
+                      </div>
+            <div class="form-group my-4">
+                            <label for="be_cared_name">受照顧者名字</label>
+                            <input
+                              type="text"
+                              id="be_cared_name"
+                              class="form-control"
+                              value="<%= doc.be_cared_name %>"
+                              disabled
+                              required
+                            />
+                          </div>
+          <div class="form-group my-4">
+                <label for="address">地址</label>
+                <input
+                  type="text"
+                  id="address"
+                  class="form-control"
+                  value="<%= doc.address %>"
+                  disabled
+                  required
+                />
+              </div>
+        <div class="form-group my-4">
+                    <label for="start_date">開始時間</label>
+                    <input
+                      type="text"
+                      id="start_date"
+                      class="form-control"
+                      value="<%= doc.start_date %> <%= doc.start_time %>"
+                      disabled
+                      required
+                    />
+                  </div>
+    <div class="form-group my-4">
+                        <label for="end_date">結束時間</label>
+                        <input
+                          type="text"
+                          id="start_date"
+                          class="form-control"
+                          value="<%= doc.end_date %> <%= doc.end_time %>"
+                          disabled
+                          required
+                        />
+                      </div>
+                      <div class="form-group my-4">
+                            <label for="grade">評價</label>
+                            <input
+                              type="text"
+                              id="grade"
+                              class="form-control"
+                              value="<%= doc.grade %>"
+                              disabled
+                              required
+                            />
+                          </div>
+                <% const services=["陪伴散步","陪伴運動","陪伴購物","送餐服務","文書服務"] ; %>
+                <!-- <h3 class="my-4">服務項目</h3> -->
+                <% let i=0; %>
+                <div class="form-group">
+                        <label for="services">服務項目</label>
+                        <select id="services" class="form-control">
+                <% doc.service_item.forEach(item=>{ %>
+                    <% if(item){%>
+                        <!-- <p><i class="fas fa-check-square"></i>  <%= services[i] %></p> -->
+                        <option value="<%= services[i] %>" selected><%= services[i] %></option>
+                        <%}%>
+                    <% i++%>
+                <% }) %>
+                        </select>
+
+
+
+      
+      <% })%>
+      </form>
+    </section>
+    <% include shared/scripts %>
+    <!-- <script>
+
+      //檢查  沒登入就回首頁
+        $(document).ready(function(){
+      const authState=<%- auth.islogin %>;
+      console.log(authState,"AUTHSTATE>>>>>")
+      if (!authState) {
+        window.location = "/";
+      };
+      });
+    </script> -->
+  </body>
+</html>

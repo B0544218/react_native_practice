@@ -1,0 +1,187 @@
+<!-- navbar -->
+
+<nav
+  class="navbar navbar-expand-sm navbar-dark bg-info"
+  style="font-family:微軟正黑體;"
+>
+  <a class="navbar-brand " href="/"
+    ><span class="btn btn-outline-light" style=" width:80px; border-width: 2px"
+      ><i class="fas">官網</i></span
+    >
+  </a>
+  <a class="navbar-brand" href="/index">會員資料</a>
+  <a class="navbar-brand" href="/index/volunteer">志工資料</a>
+  <a class="navbar-brand" href="/index/contracts">服務委託紀錄</a>
+  <a class="navbar-brand" href="/index/trades">交易紀錄</a>
+  <button
+    class="navbar-toggler d-lg-none btn btn-outline-light"
+    type="button"
+    data-toggle="collapse"
+    data-target="#collapsibleNavId"
+    aria-controls="collapsibleNavId"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="collapsibleNavId">
+    <ul class="navbar-nav ml-auto">
+      <% if(!auth.islogin) {%>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="modal" href="#signUpModal">Sign Up</a>
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link btn btn-outline-light"
+          data-toggle="modal"
+          href="#loginModal"
+          >Login</a
+        >
+      </li>
+      <% } else {%>
+      <li class="nav-item">
+        <a class="nav-link" href="/user/create">Create user</a>
+      </li>
+      <li class="nav-item">
+        <a
+          id="logoutBtn"
+          class="btn btn-outline-light"
+          style=" border-width: 2px"
+          >Log out</a
+        >
+      </li>
+      <% } %>
+    </ul>
+  </div>
+</nav>
+<!-- navbar end -->
+<!-- <%= JSON.stringify(auth) %> -->
+<!-- signUpModal -->
+<div
+  class="modal fade"
+  id="signUpModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="modelTitleId"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <form id="signUpForm" class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Sign Up</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="signUpEmail">Email</label>
+          <input
+            type="email"
+            id="signUpEmail"
+            class="form-control"
+            placeholder="Enter your email here..."
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="signUpPassword">Password</label>
+          <input
+            type="password"
+            id="signUpPassword"
+            class="form-control"
+            placeholder="Enter your password here..."
+            minlength="6"
+            required
+          />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+        <button type="submit" class="btn btn-primary">Sign Up</button>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- signUpModal -->
+
+<!-- loginModal -->
+<div
+  class="modal fade"
+  id="loginModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="modelTitleId"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <form id="loginForm" class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Login</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="loginEmail">Email</label>
+          <input
+            type="email"
+            id="loginEmail"
+            class="form-control"
+            placeholder="Enter your email here..."
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Password</label>
+          <input
+            type="password"
+            id="loginPassword"
+            class="form-control"
+            placeholder="Enter your password here..."
+            minlength="6"
+            required
+          />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+        <button type="submit" class="btn btn-primary">Login</button>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- loginModal -->
+
+<!-- sweetalert.js -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+<script>
+  //檢查  沒登入就回首頁
+
+  const authState=<%- auth.islogin %>;
+  console.log(authState,"AUTHSTATE>>>>>")
+  if (!authState) {
+    Swal.fire({
+        title: "尚未登入!",
+        type: "error"
+      });
+    window.location = "/";
+    // alert("尚未登入":"強制返回首頁")
+
+  };
+</script>

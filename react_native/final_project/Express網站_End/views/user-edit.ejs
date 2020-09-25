@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <% include shared/head %>
+  </head>
+
+  <body>
+    <% include shared/navbar %>
+    <header id="editHeader" class="jumbotron header">
+      <div class="container">
+        <h1>會員詳細資料</h1>
+      </div>
+    </header>
+    <section class="py-3">
+      <form id="editProductForm" class="container">
+        <div class="form-group">
+          <img src="<%= user.user_data.image %>" alt="" class="rounded  img-thumbnail " style="height: 40vh;"/>
+        </div>
+        <div class="form-group">
+          <label for="userName">會員名稱</label>
+          <input
+            type="text"
+            id="userName"
+            class="form-control"
+            value="<%= user.user_data.name %>"
+            disabled
+            required
+          />
+        </div>
+        <!-- <div class="form-group">
+          <button id="editName" class="btn btn-primary">
+            <i class="fas fa-edit"></i> 更改姓名
+          </button>
+        </div> -->
+        <div class="form-group">
+          <label for="userID">會員ID</label>
+          <input
+            type="text"
+            id="userID"
+            class="form-control"
+            value="<%= user.user_data.uid %>"
+            disabled
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="userLanguage">語言</label>
+          <input
+            type="text"
+            id="userLanguage"
+            class="form-control"
+            value="<%= user.user_data.language %>"
+            disabled
+            required
+          />
+        </div>
+        <!-- only for Volunteer -->
+        <% if(user.Volunteer.v) {%>
+        <div class="form-group">
+          <label for="grade">grade</label>
+          <input
+            type="number"
+            id="productPrice"
+            class="form-control"
+            min="1"
+            max="20000"
+            value="<%= user.user_data.grade %>"
+            required
+            disabled
+          />
+        </div>
+        <div class="form-group">
+          <label for="userRegion">region</label>
+          <input
+            type="text"
+            id="userRegion"
+            class="form-control"
+            value="<%= user.user_data.region %>"
+            required
+            disabled
+          />
+        </div>
+        <%}%>
+        <div class="form-group">
+          <label for="userMail">Mail</label>
+          <input
+            type="text"
+            id="userMail"
+            class="form-control"
+            value="<%= user.user_data.mail %>"
+            disabled
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="userPhone">Phone</label>
+          <input
+            type="text"
+            id="userPhone"
+            class="form-control"
+            value="<%= user.user_data.phone %>"
+            required
+            disabled
+          />
+        </div>
+        
+        <div class="form-group">
+          <label for="userCategory">會員身分</label>
+          <select id="userCategory" class="form-control">
+
+            <% let isVol="" %> 
+            <% if(user.Volunteer.v==3 || user.Volunteer.v==4)
+            {isVol="志工"}　else{isVol="一般會員"} %> 
+            <% let options=["志工","一般會員"] ;%>
+            <%options.forEach(option =>{ %> 
+              <%
+            if (isVol === option){ %>
+            <option value="<%= option %>" selected><%= option %></option>
+
+            <% } else{ %>
+            <option value="<%= option %>"><%= option %></option>
+
+            <% } %> <% })%>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="userPayneed">申請資格(免點數請志工)</label>
+          <select id="userPayneed" class="form-control">
+
+            <% let isPay="" %> 
+            <% if(user.Volunteer.v==2 || user.Volunteer.v==4)
+            {isPay="符合"}　else{isPay="不符合"} %> 
+            <% options=["符合","不符合"] ;%>
+            <% options.forEach(option =>{ %> 
+              <%
+            if (isPay === option){ %>
+            <option value="<%= option %>" selected><%= option %></option>
+
+            <% } else{ %>
+            <option value="<%= option %>"><%= option %></option>
+
+            <% } %> <% })%>
+          </select>
+        </div>
+
+        <% if(user.Volunteer.v==3|| user.Volunteer.v==4) {%>
+        <div class="form-group">
+          <label for="serviceTimes">服務次數</label>
+          <input
+            type="number"
+            id="serviceTimes"
+            class="form-control"
+            min="0"
+            max="20000"
+            value="<%= user.user_data.service_times %>"
+            required
+            disabled
+          />
+        </div>
+        
+        <% }%>
+        
+        <div class="form-group">
+            <% mongousers.forEach(doc=>{ %>
+            <% if(doc.uid==user.user_data.uid){ %>
+    
+            <label for="lost_credit">違規次數</label>
+            <input
+              type="number"
+              id="lost_credit"
+              class="form-control"
+              min="0"
+              max="20000"
+              value="<%= doc.lost_credit %>"
+              required
+            />
+            <!-- 現在顯示地做完 -->
+            <%  } %>
+          </div>
+          <%  })%>
+        <div class="form-group">
+            <button id="editDatas" class="btn btn-primary">
+                <i class="fas fa-plus"></i> 更改資料
+              </button>
+ 
+        </div>
+      </form class="mb-5">
+    </section>
+
+     
+      <!-- 折線圖畫布 -->
+       <% let userData=JSON.stringify(user) %>
+       
+
+       <% let donatsArray=JSON.stringify(donations) %>
+       <% let purchasArray=JSON.stringify(purchases) %>
+       <% let transArray=JSON.stringify(transfers) %>
+       <% let endsArray=JSON.stringify(ends) %>
+       <% let mdbUsersArray=JSON.stringify(mongousers) %>
+    <!-- 更新btn下面的東西 -->
+    <div class="container mt-3">  
+      <!-- 服務委託(服務+委託) -->
+      <h1 class=""><span class=" badge badge-primary mt-5">服務委託</span></h1>
+      <!-- 服務紀錄 -->
+      
+        <h3 class="text-right">
+          <span class=" badge badge-secondary mt-4">服務紀錄</span>
+        </h3>
+        <div class="row">
+            <table class="table table-condensed table-striped">
+              <thead class="table-dark">
+                <tr>
+                  <th>合約id</th>
+                  <th>受照顧者名字</th>
+                  <th class="">日期</th>
+                </tr>
+              </thead>
+              <tbody id="seversRow">
+                <% function renderServersTb(){ %> <% ends.forEach(doc=>{ %>
+                <% if(doc.server== user.user_data.uid ){ %>
+                <tr>
+                    <td>
+                        <a
+                          class="btn btn-info text-right mr-3"
+                          href="/index/contracts/<%= doc.contract_id%>"
+                          target="_blank"
+                          >詳情</a
+                        >
+                        <%=doc.contract_id %>
+                    </td>
+                    <td>
+                        <a
+                          class="btn btn-info text-right mr-3"
+                          href="/index/user/edit/<%= doc.be_cared %>"
+                          target="_blank"
+                          >查看</a
+                        >
+                        <%=doc.be_cared_name %>
+                    </td>
+                    <td class=""><%=doc.end_date%></td>
+                </tr>
+                <% } %>
+                <% }) %> <% } %>
+              </tbody>
+            </table>
+          </div>
+      
+      <!-- 服務紀錄End -->
+      <!-- 委託紀錄 -->
+        <h3 class="text-right">
+          <span class=" badge badge-secondary mt-4">委託紀錄</span>
+        </h3>
+        <div class="row">
+          <table class="table table-condensed table-striped">
+            <thead class="table-dark">
+              <tr>
+                <th>合約id</th>
+                <th>照顧者名字</th>
+                <th class="">日期</th>
+              </tr>
+            </thead>
+            <tbody id="caredsRow">
+              <% function renderCaredsTb(){ %> <% ends.forEach(doc=>{ %>
+              <% if(doc.be_cared== user.user_data.uid ){ %>
+              <tr>
+                  <td>
+                      <a
+                        class="btn btn-info text-right mr-3"
+                        href="/index/contracts/<%= doc.contract_id%>"
+                        target="_blank"
+                        >詳情</a
+                      >
+                      <%=doc.contract_id %>
+                  </td>
+                  <td>
+                      <a
+                        class="btn btn-info text-right mr-3"
+                        href="/index/user/edit/<%= doc.server %>"
+                        target="_blank"
+                        >查看</a
+                      >
+                      <%=doc.server_name %>
+                  </td>
+                  <td class=""><%=doc.end_date%></td>
+              </tr>
+              <% } %>
+              <% }) %> <% } %>
+            </tbody>
+          </table>
+        </div class="mb-5">
+        <!-- 委託紀錄End -->
+      <!-- 服務+委託End -->
+
+    <!-- ALL交易紀錄 -->
+      <h1 class="mt-5"><span class=" badge badge-primary mt-5">交易紀錄</span></h1>
+      <!-- 捐贈 donation -->
+      <h3 class="text-right">
+          <span class=" badge badge-secondary mt-4">兌換紀錄</span>
+      </h3>
+      <div class="row">
+        <table class="table table-condensed table-striped">
+          <thead class="table-dark">
+            <tr>
+              <th>兌換品項</th>
+              <th>花費點數</th>
+              <th class="">日期</th>
+            </tr>
+          </thead>
+          <tbody id="donationsRow">
+            <% function renderDonation(){%> <% donations.forEach(doc=>{ %>
+            <% if(doc.giver==user.user_data.uid){ %> 
+            <tr>
+              <td class="">
+                <h4><span class="badge badge-success"><%=doc.care_type %></span></h4>
+              </td>
+              <td class="">
+                  <%=doc.points %>
+              </td>
+              <td class="">
+                <%=new Date(doc.time_num).getFullYear()+" "+(new
+                Date(doc.time_num).getMonth()+1)+"/"+new
+                Date(doc.time_num).getDate() %>
+              </td>
+
+            </tr>
+            <%} %>
+            <% }) %> <% } %>
+          </tbody>
+        </table>
+      </div>
+      <!-- 捐贈 donation End-->
+      <!-- 購買 purchase -->
+      <h3 class="text-right">
+          <span class=" badge badge-secondary mt-4">購買紀錄</span>
+      </h3>
+      <div class="row">
+        <table class="table table-condensed table-striped">
+          <thead class="table-dark">
+            <tr>
+              <th class="">日期</th>
+              <th>購買點數數量</th>
+            </tr>
+          </thead>
+
+          <tbody id="purchasesRow">
+            <% function renderPurchase(){%> <% purchases.forEach(doc=>{ %>
+            <% if(doc.receiver==user.user_data.uid) { %> 
+            <tr>
+              <td class="">
+                <%=new Date(doc.time_num).getFullYear()+" "+(new
+                Date(doc.time_num).getMonth()+1)+"/"+new
+                Date(doc.time_num).getDate() %>
+              </td>
+              <td class="">
+                  <%=doc.points %>
+              </td>
+            </tr>
+            <% }%>
+            <% }) %> <% }%>
+          </tbody>
+        </table>
+      </div>
+      <!-- 購買 purchase End-->
+      <!-- 交易 -->
+      <h3 class="text-right">
+          <span class=" badge badge-secondary mt-4">交易紀錄</span>
+        </h3>
+        <div class="row">
+          <table class="table table-condensed table-striped">
+            <thead class="table-dark">
+              <tr>
+                <th>轉讓者名字</th>
+                <th>接收者名字</th>
+                <!-- <th></th> -->
+                <th>點數</th>
+                <th class="">日期</th>
+              </tr>
+            </thead>
+            <tbody id="transfersRow">
+              <% function renderTransfer(){ %> <% transfers.forEach(doc=>{ %>
+                <% if(doc.giver==user.user_data.uid||doc.receiver==user.user_data.uid){ %> 
+                <tr>
+                  <td class="">
+                    <% if(doc.giver=="Goverment"){ %>
+                    <!-- 如果是Goverment -->
+                    <a
+                      class="btn btn-outline-light  text-right mr-3"
+                      href=""
+                      target=""
+                      >查看
+                    </a>
+                    Goverment
+                    <% }else{ %>
+                      
+                    <a
+                      class="btn btn-info text-right mr-3"
+                      href="/index/user/edit/<%= doc.giver %>"
+                      target="_blank"
+                      >查看</a>
+                    
+                  <% } %>
+                  <% if(doc.giver==user.user_data.uid){ %>
+                    本人
+                  <%  } else{ %>
+                      <% Fusers.forEach(user=>{ %>
+                      <% if(user.user_data.uid==doc.giver){ %>
+                        <%= user.user_data.name %>
+                        <% } %>
+                      <% }) %>
+                    <% } %>
+                  </td>
+                  <td class="">
+                    <a
+                      class="btn btn-info text-right mr-3"
+                      href="/index/user/edit/<%= doc.receiver %>"
+                      target="_blank"
+                      >查看</a
+                    >
+
+                    <% if(doc.receiver==user.user_data.uid){ %>
+                      本人
+                   <%  } else{ %>
+                      <% Fusers.forEach(user=>{ %>
+                      <% if(user.user_data.uid==doc.receiver){ %>
+                        <%= user.user_data.name %>
+                        <% } %>
+                      <% }) %>
+                   
+                       <% } %>
+                  </td>
+
+                  <td class="">
+                    <%=doc.points %>
+                  </td>
+                  
+                  <td class="">
+                    <%=new Date(doc.time_num).getFullYear()+" "+(new
+                    Date(doc.time_num).getMonth()+1)+"/"+new
+                    Date(doc.time_num).getDate() %>
+                  </td>
+                </tr>
+                <% } %>
+              <% }) %> <% } %>
+            </tbody>
+          </table>
+        </div class="mb-5">
+      <!-- transfer End -->
+
+
+
+
+
+
+
+      <h1 class="mt-5"><span class=" badge badge-primary mt-5">分析圖表</span></h1>
+    <!-- container End-------------  -->
+    </div>
+
+     <section class=" row justify-content-center mt-2">
+      <!-- 折現 -->
+
+      <h1 class="col-md-8 mt-5 mb-3 text-center"><span class=" badge badge-secondary my-3">點數波動</span></h1>  
+        <canvas
+          class="col-md-8  mb-3"
+          id="LineChart"
+          
+        ></canvas>
+        <!-- 圓餅 -->
+        <h1 class="col-md-8 mt-5  mb-3 text-center"><span class=" badge badge-secondary my-3">服務項目占比</span></h1>
+        <canvas
+        class="col-md-8  mb-3 "
+        id="PieChart"
+        
+      ></canvas>
+      <!-- 長條 -->
+      
+      <h1 class="col-md-8 mt-5  mb-3 text-center"><span class=" badge badge-secondary my-3">委託發生時間</span></h1>
+      <canvas
+      class="col-md-8  mb-3"
+      id="BarChart"
+      
+    ></canvas>
+    </section>
+    <% include shared/scripts %>
+
+    
+    <script>
+      //這邊都在處理更新欄位----------------------------------
+      const pid = "<%= user.user_data.uid%>";
+      let timer = "",lost_times ="";
+      console.log("timer", timer);
+      let origin_name= $("#userName").val(); //參數1
+      let rewrite_name="";
+
+      // 修改姓名   ---------------------------------
+      $("#editName").click(function(event) {
+        event.preventDefault();
+        rewrite_name=$("#userName").val()
+        let userN={origin_name: origin_name,rewrite_name: rewrite_name}
+        axios
+          .put(`/api/user/editName/${pid}`, userN)
+          .then(function(res) {
+            console.log("oringin:",res.data.origin_name,"rewrite:",res.data.rewrite_name);
+
+            // console.log(res.data.msg2);
+            Swal.fire({
+            title: "修改成功!",
+            type: "success"
+          });
+            
+          })
+          .catch(function(err) {
+            console.log(err);
+            Swal.fire({
+            title: "修改失敗!",
+            type: "error"
+          });
+          window.location.reload();;
+          });
+      });
+
+      // 更新商品表單送出時
+      // $("#editProductForm").submit(function(event) {
+      //   event.preventDefault();
+       $("#editDatas").click(function(event) {
+        event.preventDefault();
+        // const product = {
+        //   name: $("#userName").val(),
+        //   grade: parseInt($("#grade").val()),
+        //   mail: $("#userMail").val(),
+        //   category: $("#userCategory").val()
+        // };
+        console.log($("#userPayneed").val(),"#userPay")
+        let volunteer = "";
+        if ($("#userCategory").val() == "志工") {
+          if($("#userPayneed").val() == "符合"){
+          volunteer = 4;
+          console.log(volunteer,"應該給我4")
+        }else{
+            volunteer = 3;
+            console.log(volunteer,"應該給我3")
+          }
+          timer = parseInt($("#serviceTimes").val());
+        } else {
+          if($("#userPayneed").val() == "符合"){
+          volunteer = 2;}else{
+            volunteer = 1;
+          }
+          timer = "<%= user.user_data.service_times %>";
+        }
+
+        lost_times = parseInt($("#lost_credit").val());
+
+        // console.log(volunteer,"現在是多少 ~")
+
+        const userX = {
+          service_times: timer,
+          Volunteer: volunteer,
+          lost_credit: lost_times,
+        };
+
+        console.log("[更新產品]", userX);
+        // console.log(pid);
+        //TODO: 傳user to 後端
+        axios
+          .put(`/api/user/${pid}`, userX)
+          .then(function(res) {
+            console.log(res.data.msg);
+            // console.log(res.data.msg2);
+            Swal.fire({
+            title: "修改成功!",
+            type: "success"
+          });
+            // window.location = `/index/user/edit/${pid}`;  //先不重整
+          })
+          .catch(function(err) {
+            console.log(err);
+            Swal.fire({
+            title: "修改失敗!",
+            type: "error"
+          });
+          window.location.reload();;
+          });
+      });
+
+      // 刪除商品按鈕按下時
+      //   $("#deleteProductBtn").click(function(event) {
+      //     console.log("[刪除商品]");
+      //   });
+    </script>
+
+     <!-- 畫圖 -->
+    <script>
+      // 畫圖前的rendaerALL()  //先做表格
+      function renderAll(){
+      $("#caredsRow").append(`<% renderCaredsTb() %>`);
+      $("#seversRow").append(`<% renderServersTb() %>`);
+      $("#donationsRow").append(`<%renderDonation() %>`);
+      $("#purchasesRow").append(`<%renderPurchase() %>`);
+      $("#transfersRow").append(`<%renderTransfer() %>`);
+
+      }
+
+      // 先顯示全部
+      renderAll();
+
+
+
+      // 來處理chart
+      
+      const userData = <%- userData%>;
+      // console.log(userData)
+      console.log(pid);
+      const trans =<%- transArray %>;
+      const donats =<%- donatsArray %>;
+      const purchas =<%- purchasArray %>;
+      const mdbUsers=<%- mdbUsersArray%>;
+      const ends =<%- endsArray %>;
+
+      // points折線圖
+      let trades=[];
+      trans.forEach(doc=>{
+        trades.push(doc);
+      })
+      donats.forEach(doc=>{
+        trades.push(doc);
+      })
+      purchas.forEach(doc=>{
+        trades.push(doc);
+      })
+      // 尚未經過排序
+      console.log(trades)
+      //  排序
+      trades.sort(function(a,b){
+        return a.time_num - b.time_num;
+      })
+
+      // x軸 日期 //
+      let x_axis=[], y_tmp="";
+      trades.forEach(doc=>{
+        // x_axis.push(new Date(doc.time_num).getFullYear()+" "+(new Date(doc.time_num).getMonth()+1)+"/"+new Date(doc.time_num).getDate())
+      })
+      // x軸end //
+
+      // y軸 type:1 ->purchase ; type:2 ->transfer ; type:3 ->donation
+      let y_axis=[],sum=0,y_lbs=[],lbs_tmp="",count=0;
+      //起始點數不為0
+      mdbUsers.forEach(doc=>{
+        if(doc.uid==pid){
+        // sum+=doc.points
+      }
+      })
+      console.log("SUMMMMM",sum)
+
+      // 第一次也要先push一個0 什麼都還沒發生時(點數=0)
+      y_axis.push(sum);
+      x_axis.push("initial")           //等下恢復
+
+      // 先實驗 我先設個物件陣列，為了排序
+      let xy_axis=[];
+
+      // 先不管排序 End服務委託
+      ends.forEach(doc=>{
+      // 先轉個數字型態
+      doc.end_number= parseInt(doc.end_number);
+      doc.points=parseFloat(doc.points);
+      // 如果是服務者，一定得到點數
+      if(doc.server==pid){
+        // sum+=doc.points;
+        // y_axis.push(sum);
+        lbs_tmp="service";
+        xy_axis.push({point: doc.points, time:doc.end_number, lbs:lbs_tmp}) //物件陣列
+        // x_axis.push(new Date(doc.end_number).getFullYear()+" "+(new Date(doc.end_number).getMonth()+1)+"/"+new Date(doc.end_number).getDate()+" "+lbs_tmp)
+      }
+      else if(doc.be_cared==pid){
+        // 不會有is_need_pay:1 因為不可能請人
+        // 2跟4不須付點數
+        if(doc.is_need_pay_point==2 || doc.is_need_pay_point==4){
+        // sum不改變
+        // y_axis.push(sum);
+        lbs_tmp="free_cared";
+        xy_axis.push({point: 0, time:doc.end_number, lbs:lbs_tmp}) //物件陣列
+        // x_axis.push(new Date(doc.end_number).getFullYear()+" "+(new Date(doc.end_number).getMonth()+1)+"/"+new Date(doc.end_number).getDate()+" "+lbs_tmp)
+        }else if(doc.is_need_pay_point==3){
+        // sum-=doc.points;
+        // y_axis.push(sum);
+        lbs_tmp="pay_cared"; 
+        xy_axis.push({point: -doc.points, time:doc.end_number, lbs:lbs_tmp}) //物件陣列                                                                           
+        // x_axis.push(new Date(doc.end_number).getFullYear()+" "+(new Date(doc.end_number).getMonth()+1)+"/"+new Date(doc.end_number).getDate()+" "+lbs_tmp)
+        }
+      }
+      })
+      // 服務委託END  ------------------
+
+      // 交易、捐贈、購買判斷
+      trades.forEach(doc=>{
+        doc.points=parseFloat(doc.points)
+        doc.time_num=parseInt(doc.time_num)
+        if(doc.type==1 && doc.receiver==pid){
+        // sum+=doc.points;
+        // y_axis.push(sum);
+        // y_lbs.push("purchase")
+        lbs_tmp="purchase";
+        xy_axis.push({point: doc.points, time:doc.time_num, lbs:lbs_tmp}) //物件陣列
+        // x_axis.push(new Date(doc.time_num).getFullYear()+" "+(new Date(doc.time_num).getMonth()+1)+"/"+new Date(doc.time_num).getDate()+" "+lbs_tmp)
+        }
+        else if(doc.type==2){
+          // y_lbs.push("transfer")
+          lbs_tmp="transfer";
+          
+          if(doc.giver==pid){
+            // sum-=doc.points;
+            // y_axis.push(sum);
+            // x_axis.push(new Date(doc.time_num).getFullYear()+" "+(new Date(doc.time_num).getMonth()+1)+"/"+new Date(doc.time_num).getDate()+" "+lbs_tmp)
+            xy_axis.push({point: -doc.points, time:doc.time_num, lbs:lbs_tmp}) //物件陣列
+          }else if(doc.receiver==pid){
+            // sum+=doc.points;
+            // y_axis.push(sum);
+            // x_axis.push(new Date(doc.time_num).getFullYear()+" "+(new Date(doc.time_num).getMonth()+1)+"/"+new Date(doc.time_num).getDate()+" "+lbs_tmp)
+            xy_axis.push({point: doc.points, time:doc.time_num, lbs:lbs_tmp}) //物件陣列
+          }
+        }else if(doc.type==3&&doc.giver==pid){
+          lbs_tmp= "donation"
+          // y_lbs.push("donation")
+          // sum-=doc.points;
+          // y_axis.push(sum);
+          // 因為x軸當標籤，讓他多加 類別
+          // x_axis.push(new Date(doc.time_num).getFullYear()+" "+(new Date(doc.time_num).getMonth()+1)+"/"+new Date(doc.time_num).getDate()+" "+lbs_tmp)
+          xy_axis.push({point: -doc.points, time:doc.time_num, lbs:lbs_tmp}) //物件陣列
+        }else{
+          // y_lbs.push("")
+          // y_axis.push(sum)
+        }
+        
+      })
+      console.log("未排序xy_axis[{}]",xy_axis)
+      // console.log("這是我的y軸(未排)",y_axis)
+      // console.log("這是我的x軸(未排)",x_axis)
+
+      // xy_axis 排序
+      xy_axis.sort(function(a,b){
+        return a.time - b.time;
+      })
+      console.log("排序後的xy_axis[{}]",xy_axis)
+
+      // 接下來一一擺入x、y軸
+      xy_axis.forEach(doc=>{
+        sum+=doc.point;  //我們要的是sum
+        y_axis.push(sum)  //y軸很單純的加總的點數
+        // 我們再用用這個變數，已經很多別再設
+        lbs_tmp=(new Date(doc.time).getFullYear()+" "+(new Date(doc.time).getMonth()+1)+"/"+new Date(doc.time).getDate()+" "+doc.lbs)
+        x_axis.push(lbs_tmp)
+      })
+
+      console.log("這是我的y軸(排)",y_axis)
+      console.log("這是我的x軸(排)",x_axis)
+      
+      // y軸end //
+
+      // 折線圖Line
+      console.log(trades)
+      var ctx = document.getElementById("LineChart");
+      var myChart = new Chart(ctx, {
+        type: "line",
+        data: {
+          // x軸
+          labels: x_axis,
+          datasets: [
+            {
+              label: "Points",
+              data: y_axis, // y軸
+              backgroundColor: ["rgba(10, 153, 235, 0.2)"],
+              borderColor: ["rgba(255, 99, 132, 1)"],
+              borderWidth: 1
+            }
+          ]
+        },
+        options: {
+          scales: {
+            yAxes: [
+              {
+                ticks: {
+                  beginAtZero: true
+                }
+              }
+            ]
+          }
+        }
+      });
+
+      // Pie Chart
+      // 邏輯，首先我不管志工還是一班會員
+      let pie_data=[0,0,0,0,0],dt_tmp="";
+      ends.forEach(doc=>{
+        if(doc.server==pid||doc.be_cared==pid){
+          let i=0;
+          // console.log(doc.service_item)
+          doc.service_item.forEach(item=>{
+            // console.log("item",item)
+            if(item){
+             pie_data[i]=pie_data[i]+1
+                    }
+                    i=i+1   
+                  })
+
+        }
+      })
+
+      console.log("派DATA",pie_data)
+      const ctx2 = document.getElementById("PieChart").getContext("2d");
+//資料標題
+const labels = ["陪伴散步", "陪伴運動", "陪伴購物","送餐服務","文書服務"];
+const pieChart = new Chart(ctx2, {
+  type: "pie",
+  data: {
+    labels: labels,
+    datasets: [
+      {
+        //預設資料
+        data: pie_data,
+        backgroundColor: [
+          //資料顏色
+          "rgba(255, 99, 132, 1)",
+          "rgba(54, 162, 235, 1)",
+          "rgba(255, 206, 86, 1)",
+          "rgba(153, 102, 255, 1)",
+          "rgba(255, 159, 64, 1)"
+        ]
+      }
+    ]
+  }
+});
+
+// Bar Chart
+// 邏輯，首先我不管志工還是一班會員
+let bar_data=[0,0,0,0,0,0,0],bar_tmp="";
+      ends.forEach(doc=>{
+        if(doc.server==pid||doc.be_cared==pid){
+        let i= new Date(parseInt(doc.end_number)).getDay();
+        // console.log(i,"GetDAY=?")
+          if( i>0 && i<=bar_data.length-1){ // i=1~6 禮拜一到六
+          bar_data[i-1]+=1
+          }
+          else{ // i=0 禮拜日  [6]次數+1
+          bar_data[bar_data.length-1]+=1
+          }
+        }
+      })
+    console.log(bar_data,"賈霸")
+const ctx3 = document.getElementById("BarChart").getContext("2d");
+const barChart = new Chart(ctx3, {
+  type: "bar",
+  data: {
+    labels: ["星期一", "星期二", "星期三", "星期四", "星期五", "星期六","星期日"],
+    datasets: [
+      {
+        label: "委託次數",
+        data: bar_data,
+        backgroundColor: [
+          "rgba(255, 99, 132, 0.2)",
+          "rgba(54, 162, 235, 0.2)",
+          "rgba(255, 206, 86, 0.2)",
+          "rgba(75, 192, 192, 0.2)",
+          "rgba(153, 102, 255, 0.2)",
+          "rgba(255, 159, 64, 0.2)",
+          "rgba(120, 90, 40, 0.2)"
+        ],
+        borderColor: [
+          "rgba(255, 99, 132, 1)",
+          "rgba(54, 162, 235, 1)",
+          "rgba(255, 206, 86, 1)",
+          "rgba(75, 192, 192, 1)",
+          "rgba(153, 102, 255, 1)",
+          "rgba(255, 159, 64, 1)",
+          "rgba(120, 90, 40, 1)"
+        ],
+        borderWidth: 1
+      }
+    ]
+  },
+  options: {
+    scales: {
+      yAxes: [
+        {
+          ticks: {
+            beginAtZero: true
+          }
+        }
+      ]
+    }
+  }
+});
+    </script>
+  </body>
+</html>

@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <% include shared/head %>
+  </head>
+
+  <body>
+    <% include shared/navbar %><% include shared/scripts %>
+
+    
+
+    <header id="indexHeader" class="jumbotron header">
+      <div class="container">
+        <h1>會員資料頁面</h1>
+      </div>
+    </header>
+
+    <section class="py-3">
+      <div class="container">
+        <h1 class="mb-5 ">
+          <span class=" badge badge-primary badge  ">會員資料</span>
+        </h1>
+
+        <h5><span class=" badge badge-dark badge-pill mt-3 ">請輸入帳號 :</span></h5>
+        <!-- mail_selector -->
+        <form class="form-inline  "></form>
+            
+            <i class="fas fa-search mb-5 " aria-hidden="true"></i>
+            <select
+              id="mail_selector"
+              data-live-search="true"
+              data-live-search-style="startsWith"
+              class="selectpicker "
+              data-style=" btn-outline-secondary"
+            >
+            <option value="all">顯示全部帳號(mail)</option>
+            <% users.forEach(user=> { %>
+            <option value=<%=user.user_data.mail%>><%=user.user_data.mail%></option>
+            <% })%>
+            </select> 
+
+            
+            <button id="mail_btn" type="click" class="btn btn-outline-primary form-group  mt-3 ml-5 "
+            style=" width:80px; border-width: 2px">
+              <i class="fas ">確定</i>
+            </button>
+              
+          
+        </form>
+        <!-- mail_selector -->
+
+        <div class="row" id="card_row">
+          <% users.forEach(user=> { %>
+          <div class="col-md-4 mb-3 ">
+            <div class="card col-mb-3 bg-light">
+              <img
+                src="<%= user.user_data.image %>"
+                alt=""
+                class="card-img-top img-fluid"
+                style="height: 36vh;"
+              />
+              <div class="card-body">
+                <h5 class="font-weight-bold"><%=user.user_data.name %></h5>
+                <% let isVol=""; let badge="success", badge_2 = "secondary"; %> <%
+                let isPay="花點數請志工" %> <% if(user.Volunteer.v==3||
+                user.Volunteer.v==4) { %> <% isVol= "志工"; badge="danger"; %>
+                <%} else{ %> <% isVol= "一般人"; %> <% } %>
+                <!-- 第二小標(申請資格) -->
+                <% if (user.Volunteer.v == 1) { %>  <%
+                isPay = "花點數請志工"; %> <% } else if (user.Volunteer.v == 2 ||
+                user.Volunteer.v == 4) { %> <% badge_2 = "warning"; %> <% isPay
+                = "免費請志工"; %> <% } %>
+                <!-- <p><%= isVol %></p> -->
+                <span class="badge badge-<%= badge %>"><%= isVol %></span>
+                <span class="badge badge-<%= badge_2 %>"><%= isPay %></span>
+                <p><%=user.uid %></p>
+                <!-- <a
+                  href="/index/user/show/<%= user.user_data.uid %>"
+                  class="btn btn-primary"
+                  >Show</a
+                > -->
+                <a
+                  href="/index/user/edit/<%= user.user_data.uid %>"
+                  class="btn btn-outline-dark"
+                  target="_blank"
+                  >查看更多</a
+                >
+              </div>
+            </div>
+          </div>
+
+          <% })%>
+        </div>
+      </div>
+      <!-- test -->
+      <div class="container  my-5">
+      <div id="test_row"></div>
+      </div>
+    </section>
+
+    <!-- 需要關照者(委託失敗)排名 -->
+    <% let failers=[] %>
+    <section>
+      <div class="container">
+          <h1 class="mt-3 mb-5 ">
+              <span class=" badge badge-primary badge  ">委託失敗者</span>
+          </h1>
+          <!-- 塞選器 -->
+        <div class=" row mt-5 mb-5">
+            <div class="dates col-3" style="margin-top:20px;">
+              <h5
+                ><span class=" badge badge-dark badge-pill  "
+                  >選擇起始日期 :</span
+                ></h5
+              >
+              <!-- #bce4ff; -->
+              <input 
+                type="text"
+                style="width:200px;background-color:#d4eeff;"
+                class="form-control datetimepicker btn-outline-secondary"
+                id="usr1"
+                name="event_date"
+                placeholder="YYYY-MM-DD"
+                autocomplete="off"
+              />
+            </div>
+    
+            <div class="dates col-3" style="margin-top:20px;color:#d4eeff;">
+              <h5
+                ><span class=" badge badge-dark badge-pill  "
+                  >選擇結束日期 :</span
+                ></h5
+              >
+              <input
+                type="text"
+                style="width:200px;background-color:#d4eeff;"
+                class="form-control datetimepicker btn-outline-secondary "
+                id="usr2"
+                name="event_date"
+                placeholder="YYYY-MM-DD"
+                autocomplete="off"
+              />
+            </div>
+    
+            
+            <div class="">
+              <button
+                id="DateSelectBtn"
+                type="button"
+                class="btn  mt-5 btn-outline-primary"
+                style="margin-top:32px; width:80px; border-width: 2px"
+                data-toggle="modal"
+                data-target=""
+              >
+              <i class="fas ">確定</i>
+              </button>
+          
+            </div>
+          </div>
+          <!-- 塞選器End  -->
+          <!-- 塞選器程式碼 -->
+        <script>
+          $(function() {
+            $(".dates .datetimepicker").datepicker({
+              format: "yyyy-mm-dd ",
+              autoclose: true,
+              lang: "zh"
+            });
+          });
+        </script>
+        <!-- 塞選器程式碼end -->
+
+          <!-- 會重複的array -->
+          <% loss.forEach(user=> { %>
+          <% failers.push(user.be_cared) %>
+          <% }) %>
+
+          <!-- result=獨立的array -->
+          <% let result = failers.filter(function(element, index, arr){ %>
+          <%  return arr.indexOf(element) === index; %>
+          <% }); %>
+
+          <!-- 獨立的會員id 簡易array -->
+          <% failers=result %>
+
+          <div class="row" id="failers_row">
+            
+          </div>
+          
+
+
+      </div>
+    </section>
+
+
+    <!-- 塞選器 -->
+    
+
+
+
+    
+
+    <script>
+        let users=<%- JSON.stringify(users) %>;
+        
+        $("#mail_btn").click(function(e) {
+          
+          // e.preventDefault(); //好像不用
+
+          let selectedMail = $("#mail_selector").val();
+          console.log("mailllll:",selectedMail)
+          $("#card_row").html(""); // 必須先清空
+          
+          users.forEach(user=>{
+
+
+          let isVol="一般人", badge="success", badge_2 = "secondary",isPay="花點數請志工";
+          if(user.Volunteer.v==3||user.Volunteer.v==4){
+            isVol= "志工"; badge="danger";
+          }
+          if (user.Volunteer.v == 2||user.Volunteer.v == 4) { 
+            badge_2 = "warning";isPay
+                = "免費請志工";}
+          
+         
+            
+            if(selectedMail=="all"){ render_card()
+                ;}
+            else if(user.user_data.mail==selectedMail){
+          render_card();}
+
+          function render_card(){$("#card_row").append(`<div class="col-md-4">
+            <div class="card col-mb-3 mb-3 bg-light">
+              <img
+                src=${user.user_data.image}
+                alt=""
+                class="card-img-top img-fluid"
+                style="height: 36vh; "
+              />
+              <div class="card-body">
+                <h5 class="font-weight-bold">${user.user_data.name}</h5>
+                <span class="badge badge-${badge}">${isVol} %></span>
+                <span class="badge badge-${badge_2}" %>">${isPay} %></span>
+                <p></p>
+                <a
+                  href="/index/user/edit/${user.user_data.uid}"
+                  class="btn btn-outline-secondary"
+                  target="_blank"
+                  >查看更多</a
+                >
+              </div>
+            </div>
+          </div>
+                `)}
+
+
+          });// forEach
+
+          
+        });// click function
+      </script>
+    
+      <script>
+        // 可憐人排名
+        let loss_array;
+        let  loss=<%- JSON.stringify(loss) %>;
+        console.log("loss",loss)
+        //接下來必須處理日期塞選器條件
+        let satartDate = "";
+        let endDate = "";
+
+        // 按下確定塞選
+        $("#DateSelectBtn").click(function(e) {
+
+           // 選擇的日期
+           startDate = $("#usr1").val();
+            endDate = $("#usr2").val();
+            console.log("起始、終止日期", startDate, endDate);
+
+            //  改成毫秒
+            startDate = new Date(startDate).getTime();
+            endDate = new Date(endDate).getTime()+86400000; //因為尾日11/14也選不到當天的;
+            console.log("起始、終止日毫秒", startDate, endDate);
+
+            //先清空
+            $("#failers_row").html("");
+
+            loss_array=[]; //初始化
+
+              loss.forEach(doc=>{
+                // 先處理 日期+時間轉成毫秒
+                let end_number=doc.end_date+" "+doc.end_time;
+                end_number=new Date(end_number).getTime()
+                // 先轉數字  ps.end_number = loss上的時間轉毫秒
+                end_number=parseInt(end_number);
+                if (!$("#usr1").val() && !$("#usr2").val()) {
+                  console.log("你沒有輸入日期")
+                  loss_array.push(doc)
+                  // 全部
+                }
+                else if(end_number>=startDate && end_number<=endDate){
+                  loss_array.push(doc)
+                }
+                else if(startDate> endDate){
+                  Swal.fire({
+                  title: "初始日期必須小於結束日期",
+                  type: "error"
+                  });
+                }
+                else{ //只有一個沒輸入
+                  // 如果是startDate沒輸入
+                  if(!$("#usr1").val()){
+                    if(end_number<=endDate){
+                      loss_array.push(doc)
+                    }
+                  }
+                  else if(!$("#usr2").val()){ // 如果是endDate沒輸入
+                    if(startDate<=end_number){
+                      loss_array.push(doc)
+                    }
+                  }
+                }
+              })// forEach---End
+
+              let selectedUser=<%- JSON.stringify(users) -%>;//firebase
+
+             
+              let loss_times=0, endUsers=[];
+              // 開始執行乖寶寶巢狀迴圈處理
+              //forEach_start-------------------------------------------------------
+              selectedUser.forEach(user=>{   //志工一個個看所以放外曾
+                loss_times=0;//初始化
+              
+                // 標示判斷
+                let isVol="一般人", badge="success", badge_2 = "secondary",isPay="花點數請志工"; 
+                if(user.Volunteer.v==3||user.Volunteer.v==4) {
+                  isVol= "志工"; badge="danger"; 
+                }else if (user.Volunteer.v == 2 ||user.Volunteer.v == 4) {
+                    badge_2 = "warning";  isPay= "免費請志工";  
+                } 
+                //第二層迴圈
+                loss_array.forEach(doc=>{
+                  if(user.user_data.uid==doc.be_cared){ //此志工是去當server(才會打卡)
+                      loss_times+=1
+                  }
+                });
+                endUsers.push({id:user.user_data.uid,image:user.user_data.image,name:user.user_data.name,isVol:isVol,badge:badge,badge_2:badge_2,isPay:isPay,loss_times:loss_times});
+              });//巢狀end
+
+          // console.log("endUsers",endUsers) //成功
+          //排序
+          endUsers.sort(function(a, b) {
+          return  b.loss_times- a.loss_times ; //因為我是要由大排到小，反過來b-a
+          });
+          // console.log("endUsers排序後",endUsers) //成功
+
+          //這邊多一個步驟，因為我只想顯示 loss_times >0的(有委託失敗的人)
+          let tmp_endUsers=[]; 
+          endUsers.forEach(user=>{
+            if(user.loss_times>0){
+            tmp_endUsers.push(user)
+            }
+          });//forEach End
+          endUsers=tmp_endUsers;
+
+
+          //剩render()
+          let no=1;
+
+          endUsers.forEach(user=>{
+            // let rank_icon="fas fa-bullhorn";//大喇叭圖示 讓他變動給，只給冠軍
+            let rank_icon="fas fa-crown";//王冠
+            // let color="#ffd700"     //color: 金色 #ffd700 銀色 #c0c0c0 銅色 #A67D3D
+            let icon_color="#ffd700";
+            let btn_color="success", btn_font="發送獎勵"
+            if(no>=2){
+              if(no==2){
+                icon_color="#c0c0c0";}
+              else if(no==3){
+                icon_color="#A67D3D";}
+              else{
+                icon_color="#A67D3D";
+                rank_icon=""; //沒得獎不要給獎牌icon
+                btn_color="secondary",btn_font="沒有獎勵"
+              }
+            }
+            render_endUsers();
+            no++;
+
+            function render_endUsers(){
+
+              $("#failers_row").append(`
+              <div class="col-md-4 mb-3">
+                <h3 class="mb-2"> <span id="${no}lo_rank" class=" badge badge-pill badge-defaul" >No. ${no} </span> 
+                  
+                  <button type="button" class="btn btn-secondary ">
+                委託失敗次數 <span class="badge badge-danger ml-2">${user.loss_times}</span>
+                </button>
+                </span></h3>
+
+               
+                <div class="card mt-3  mb-3 bg-light">
+                  <img
+                    src=${user.image}
+                    alt=""
+                    class="card-img-top"
+                    style="height: 36vh; "
+                  />
+                  <div class="card-body">
+                    <h5 class="font-weight-bold">${user.name}</h5>
+                    <span class="badge badge-${user.badge}">${user.isVol}</span>
+                    <span class="badge badge-${user.badge_2}" %>">${user.isPay} %></span>
+                    <p></p>
+                    <a
+                      href="/index/user/edit/${user.id}"
+                      class="btn btn-outline-dark"
+                      target="_blank"
+                      >查看更多</a
+                    >
+                  </div>
+                </div>
+              </div>`);
+          }
+          });
+
+        });//btn_click事件end
+      
+      </script>
+  </body>
+</html>

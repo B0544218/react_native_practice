@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <% include shared/head %>
+</head>
+
+<body>
+  <% include shared/navbar %> <% include shared/scripts %>
+  <header id="indexHeader" class="jumbotron header">
+    <div class="container">
+      <h1>志工資料頁面</h1>
+
+      <!-- <p><%= DDDD %></p> -->
+    </div>
+  </header>
+  <section class="py-3">
+    <div class="container">
+      <h1 class="mb-5">
+        <span class=" badge badge-primary ">志工資料</span>
+      </h1>
+
+      <!-- 地點塞選 -->
+      <!-- 地點選擇器 -->
+      <div class="row " id="cityselected">
+        <div class=" col-md-3 mb-5 ">
+          <h5 class="mt-3">
+            <span class=" badge badge-dark badge-pill   ">請選擇縣市 :</span>
+          </h5>
+          <select class="form-control btn-outline-secondary " id="CityFormControlSelect">
+            <option value="all">顯示全部</option>
+            <option value="台北市">台北市</option>
+            <option value="新北市">新北市</option>
+            <option value="桃園市">桃園市</option>
+            <option value="台中市">台中市</option>
+            <option value="台南市">台南市</option>
+            <option value="高雄市">高雄市</option>
+            <option value="基隆市">基隆市</option>
+            <option value="新竹市">新竹市</option>
+            <option value="嘉義市">嘉義市</option>
+            <option value="新竹縣">新竹縣</option>
+            <option value="苗栗縣">苗栗縣</option>
+            <option value="彰化縣">彰化縣</option>
+            <option value="南投縣">南投縣</option>
+            <option value="雲林縣">雲林縣</option>
+            <option value="嘉義縣">嘉義縣</option>
+            <option value="屏東縣">屏東縣</option>
+            <option value="宜蘭縣">宜蘭縣</option>
+            <option value="花蓮縣">花蓮縣</option>
+            <option value="臺東縣">臺東縣</option>
+            <option value="澎湖縣">澎湖縣</option>
+          </select>
+        </div>
+        <div class=" col-md-3 mb-5 ml-3">
+          <h5 class="mt-3 ">
+            <span class=" badge badge-dark badge-pill   ">請輸入帳號 :</span>
+          </h5>
+          <i class="fas fa-search mb-5 mr-2" aria-hidden="true"></i>
+          <select id="mail_selector" data-live-search="true" data-live-search-style="startsWith" class="selectpicker "
+            data-style=" btn-outline-secondary">
+            <option value="all">顯示全部帳號(mail)</option>
+            <% users.forEach(user=> { %>
+            <% if(user.Volunteer.v==3||user.Volunteer.v==4){ %>
+            <option value=<%=user.user_data.mail%>><%=user.user_data.mail%></option>
+            <% } %>
+            <% })%>
+          </select>
+
+        </div>
+        <div class="">
+          <button type="click" class="btn btn-outline-primary mt-5 ml-5 "
+            style="margin-top:32px; width:80px; border-width: 2px">
+            <i class="fas ">確定</i>
+          </button>
+        </div>
+      </div>
+
+      <!-- 塞選End -->
+      <% console.log(DDDD) %> <% let testChange=72 %> <% let selectedUser=[]
+        %>
+      <div class="row" id="render_row">
+        <% function render(){ %> <% selectedUSer=[]; %> <%
+          users.forEach(user=> {if (user.Volunteer.v==3||user.Volunteer.v==4) {
+          %> <% selectedUser.push(user) ;%>
+        <div class="col-md-4">
+          <div class="card col-mb-3 mb-3 bg-light">
+            <img src="<%= user.user_data.image %>" alt="" class="card-img-top" style="height: 36vh; " />
+            <div class="card-body">
+              <h5 class="font-weight-bold"><%=user.user_data.name %></h5>
+              <% let isVol=""; let badge="success", badge_2 = "secondary"; %>
+              <% let isPay="花點數請志工" %><% if(user.Volunteer.v==3||
+                user.Volunteer.v==4) { %> <% isVol= "志工"; badge="danger"; %>
+              <%} else{ %> <% isVol= "一般人"; %> <% } %>
+              <!-- <p><%= isVol %></p> -->
+              <!-- 第二小標(申請資格) -->
+              <% if (user.Volunteer.v == 1) { %> <% badge_2 = "danger"; %> <%
+                isPay = "花錢請志工"; %> <% } else if (user.Volunteer.v == 2 ||
+                user.Volunteer.v == 4) { %> <% badge_2 = "warning"; %> <% isPay
+                = "免費請志工"; %> <% } %>
+              <span class="badge badge-<%= badge %>"><%= isVol %></span>
+              <span class="badge badge-<%= badge_2 %>"><%= isPay %></span>
+              <p><%=user.uid %></p>
+              <a href="/index/user/edit/<%= user.user_data.uid %>" class="btn btn-outline-dark" target="_blank">查看更多</a>
+            </div>
+          </div>
+        </div>
+
+        <% }})%> <%}%>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container mt-5 mb-3">
+        <h1>
+          <span class=" badge badge-primary ">打卡次數排名</span>
+        </h1>
+      </div>
+      <!-- 塞選器 -->
+      <div class="container  mt-5 mb-5">
+        <div class="row">
+        <div class="dates col-3" style="margin-top:20px;">
+          <h5
+            ><span class=" badge badge-dark badge-pill  "
+              >選擇起始日期 :</span
+            ></h5
+          >
+          <!-- #bce4ff; -->
+          <input 
+            type="text"
+            style="width:200px;background-color:#d4eeff;"
+            class="form-control datetimepicker btn-outline-secondary"
+            id="usr1"
+            name="event_date"
+            placeholder="YYYY-MM-DD"
+            autocomplete="off"
+          />
+        </div>
+
+        <div class="dates col-3" style="margin-top:20px;color:#d4eeff;">
+          <h5
+            ><span class=" badge badge-dark badge-pill  "
+              >選擇結束日期 :</span
+            ></h5
+          >
+          <input
+            type="text"
+            style="width:200px;background-color:#d4eeff;"
+            class="form-control datetimepicker btn-outline-secondary "
+            id="usr2"
+            name="event_date"
+            placeholder="YYYY-MM-DD"
+            autocomplete="off"
+          />
+        </div>
+
+        
+        <div class="">
+          <button
+            id="DateSelectBtn"
+            type="button"
+            class="btn  mt-5 btn-outline-primary"
+            style="margin-top:32px; width:80px; border-width: 2px"
+            data-toggle="modal"
+            data-target=""
+          >
+          <i class="fas ">確定</i>
+          </button>
+      
+        </div>
+      </div>
+      </div>
+      <!-- 塞選器End  -->
+      <!-- 塞選器程式碼 -->
+      <script>
+        $(function () {
+          $(".dates .datetimepicker").datepicker({
+            format: "yyyy-mm-dd ",
+            autoclose: true,
+            lang: "zh"
+          });
+        });
+      </script>
+      <!-- 塞選器程式碼end -->
+      <!-- 要render的地方 -->
+      <div class="container  my-5">
+        <div class="row" id="render2_row"></div>
+      </div>
+    </section>
+
+    <!-- <% const usersArray= JSON.stringify(users) %> -->
+        <script>
+          // 地點塞選器的card
+          $("#render_row").append(`<% render() %>`);// 先印全部
+
+          $("#cityselected").click(function (e) {
+
+            e.preventDefault();
+            // $("#userRow").html("");
+            // render(); // 先不要，因為這個是database not realtime
+            let selectedCity = $("#CityFormControlSelect").val();
+            let selectedMail = $("#mail_selector").val();
+            // let users_for=<%- usersArray %>
+            // console.log(users_for);
+
+            console.log("selectedCity", selectedCity);
+            console.log("selectedMail", selectedMail);
+            $("#render_row").html(""); // 必須先清空
+
+
+
+            // 要把 selectedCity(val)傳給後端
+            let Allthing = "全部東西"
+            // axios
+            //   .post("/api/selectedCity", Allthing)
+            //   //  200成功
+            //   .then(function(res) {
+            //     console.log(res.data.msg);
+            //   })
+            //   //  其他400,401,404,500...
+            //   .catch(function(err) {
+            //     console.log(err);
+            //   });
+
+            selectedUser =<%- JSON.stringify(selectedUser) %>;
+            // console.log("selectedUser<-",selectedUser)
+            //現在因為有2層選擇器，先(判斷)讓gmail塞選完->陣列 給地點塞選並render
+            let temp_selectedUser = [];//佔存器
+
+            selectedUser.forEach(user => {
+              if (user.user_data.mail == selectedMail) { //因為只有這個條件，array才需要變動
+                temp_selectedUser.push(user)
+              };
+            })//forEach
+            if (selectedMail != "all") {     //注意  是/=時候
+              selectedUser = temp_selectedUser;
+            }
+
+            // $("#render_row").html("");//先清空
+
+
+
+
+
+            selectedUser.forEach(user => {
+
+              let userCity = user.user_data.region.substr(0, 3)
+              let badge = "danger", badge_2 = "success", isVol = "志工", isPay = "花點數請志工";
+              if (user.Volunteer.v == 4) {
+                isPay = "免費請志工", badge_2 = "warning";
+              }
+
+
+              console.log("目前使用者的region", user.user_data.region)
+              if (selectedCity == "all") {
+                console.log("all")
+
+                render_card();
+                // 貼在這邊才對，原本貼在for裡面 (render就for1次) =2次
+              } else if (selectedCity == userCity) {
+                console.log("selected", user)
+                // $("#render_row").html("");//先清空
+                render_card();
+              }
+              else { }
+
+              //render_function
+              function render_card() {
+                $("#render_row").append(`<div class="col-md-4">
+          <div class="card col-mb-3 mb-3 bg-light">
+            <img
+              src=${user.user_data.image}
+              alt=""
+              class="card-img-top"
+              style="height: 36vh; "
+            />
+            <div class="card-body">
+              <h5 class="font-weight-bold">${user.user_data.name}</h5>
+              <span class="badge badge-${badge}">${isVol} %></span>
+              <span class="badge badge-${badge_2}" %>">${isPay} %></span>
+              <p></p>
+              <a
+                href="/index/user/edit/${user.user_data.uid}"
+                class="btn btn-outline-dark"
+                target="_blank"
+                >查看更多</a
+              >
+            </div>
+          </div>
+        </div>
+              `)
+              }
+
+            });// forEach
+
+
+
+          }); //click
+        </script>
+
+        <script>
+          // 乖寶寶排名--------------------------------------------
+          let contracts_array;
+          let contracts =<%- JSON.stringify(contracts) %>;
+          console.log("contracts", contracts)
+          //接下來必須處理日期塞選器條件
+          let satartDate = "";
+          let endDate = "";
+
+
+          // 按下確定塞選
+          $("#DateSelectBtn").click(function (e) {
+
+            // 選擇的日期
+            startDate = $("#usr1").val();
+            endDate = $("#usr2").val();
+            console.log("起始、終止日期", startDate, endDate);
+
+            //  改成毫秒
+            startDate = new Date(startDate).getTime();
+            endDate = new Date(endDate).getTime() + 86400000; //因為尾日11/14也選不到當天的;
+            // 為了避免start、end同天 反而塞不到9/16的狀況
+            // if(new Date(startDate).getTime() == new Date(endDate).getTime() ){
+            // endDate+=86400000 ; //先不管，解決了!!
+            // }
+            console.log("起始、終止日毫秒", startDate, endDate);
+            //先清空
+            $("#render2_row").html("");
+
+            contracts_array = []; //初始化
+            contracts.forEach(doc => {
+
+              // 先轉數字
+              doc.end_number = parseInt(doc.end_number);
+              if (!$("#usr1").val() && !$("#usr2").val()) {
+                console.log("你沒有輸入日期")
+                contracts_array.push(doc)
+                // 全部
+              }
+              else if (doc.end_number >= startDate && doc.end_number <= endDate) {
+                contracts_array.push(doc)
+              }
+              else if (startDate > endDate) {
+                Swal.fire({
+                  title: "初始日期必須小於結束日期",
+                  type: "error"
+                });
+              }
+              else { //只有一個沒輸入
+                // 如果是startDate沒輸入
+                if (!$("#usr1").val()) {
+                  if (doc.end_number <= endDate) {
+                    contracts_array.push(doc)
+                  }
+                }
+                else if (!$("#usr2").val()) { // 如果是endDate沒輸入
+                  if (startDate <= doc.end_number) {
+                    contracts_array.push(doc)
+                  }
+                }
+              }
+            })// forEach---End
+
+
+            console.log("contracts_array : ", contracts_array) //成功處理好日期塞選完後的end(合約)陣列
+
+
+            // let User=<%- JSON.stringify(users) -%>;
+            let selectedUser = [];
+            <%- JSON.stringify(users) -%>.forEach(user => {
+              if (user.Volunteer.v == 3 || user.Volunteer.v == 4) {
+                selectedUser.push(user);
+              }// 塞選出只是志工的陣列
+            });
+            console.log("selctedUser", selectedUser)
+
+            let location_times = 0, endUsers = [];
+            // 開始執行乖寶寶巢狀迴圈處理
+            selectedUser.forEach(user => {   //志工一個個看所以放外曾
+              location_times = 0;
+              let badge_2 = "secondary", isPay = "花點數請志工";
+              if (user.Volunteer.v == 4) { isPay = "免費請志工", badge_2 = "warning"; }
+              contracts_array.forEach(doc => {
+                if (user.user_data.uid == doc.server) { //此志工是去當server(才會打卡)
+                  if (doc.coordinate.length > 0) { //打卡藍有資料的話
+                    location_times += 1
+                  }
+                }
+
+              });
+              endUsers.push({ id: user.user_data.uid, image: user.user_data.image, name: user.user_data.name, badge_2: badge_2, isPay: isPay, location_times: location_times });
+            });//巢狀end
+
+            console.log("endUsers", endUsers) //成功
+            //排序
+            endUsers.sort(function (a, b) {
+              return b.location_times - a.location_times; //因為我是要由大排到小，反過來b-a
+            });
+            console.log("endUsers排序後", endUsers) //成功
+
+            //剩render()
+            let no = 1;
+
+
+            endUsers.forEach(user => {
+              // let rank_icon="fas fa-bullhorn";//大喇叭圖示 讓他變動給，只給冠軍
+              let rank_icon = "fas fa-crown";//王冠
+              // let color="#ffd700"     //color: 金色 #ffd700 銀色 #c0c0c0 銅色 #A67D3D
+              let icon_color = "#ffd700";
+              let btn_color = "success", btn_font = "發送獎勵"
+              if (no >= 2) {
+                if (no == 2) {
+                  icon_color = "#c0c0c0";
+                }
+                else if (no == 3) {
+                  icon_color = "#A67D3D";
+                }
+                else {
+                  icon_color = "#A67D3D";
+                  rank_icon = ""; //沒得獎不要給獎牌icon
+                  btn_color = "secondary", btn_font = "沒有獎勵"
+                }
+                // rank_icon="";
+              }
+              render_endUsers();
+              no++;
+
+              function render_endUsers() {
+
+                $("#render2_row").append(`
+                <div class="col-md-4 mb-3">
+                <h3 class="mb-2"> <i class="${rank_icon}" style="color:${icon_color}" aria-hidden="true"></i><span id="${no}lo_rank" class=" badge badge-pill badge-defaul" >No. ${no} </span>
+
+                  <button type="button" class="btn btn-primary">
+                打卡次數 <span class="badge badge-danger ml-2">${user.location_times}</span>
+                </button>
+                <span>  </span>
+                <button id=${no}givePoint type="button" class="givePoint btn  btn-outline-${btn_color}">${btn_font}</button></h3>
+                <p hidden class="mt-2" ><span class=" badge badge-info badge-pill mr-3  ">ID :</span><span id="${no}user_id" class=" badge badge-inf  ">${user.id}</span></p>
+                
+                <div class="card  mb-3 bg-light">
+                  <img
+                    src=${user.image}
+                    alt=""
+                    class="card-img-top"
+                    style="height: 36vh; "
+                  />
+                  <div class="card-body">
+                    <h5 class="font-weight-bold">${user.name}</h5>
+                    <span class="badge badge-danger">志工 %></span>
+                    <span class="badge badge-${user.badge_2}" %>">${user.isPay} %></span>
+                    <p></p>
+                    <a
+                      href="/index/user/edit/${user.id}"
+                      class="btn btn-outline-secondary"
+                      target="_blank"
+                      >查看更多</a
+                    >
+                  </div>
+                </div>
+              </div>`);
+              }
+            });
+
+            $(`#1givePoint`).click(function(e) {
+
+            e.preventDefault();
+            console.log("發送出去了")
+            console.log($("#1lo_rank").text())
+            let rank=$("#1lo_rank").text().substring(4,5)
+            console.log(rank)
+            console.log($("#1user_id").text())
+            let id=$("#1user_id").text();
+
+            //   console.log($(".givepointA").)
+            //   Swal.fire({
+            //   title: "已發送點數!",
+            //   type: "success"
+            //   });
+
+            const give_transfer = {
+            giver: 'goverment',
+            receiver: id,
+            rank: rank,
+            time_num: new Date().getTime()
+            };
+
+            console.log("[發送獎勵]", give_transfer);
+            // console.log(pid);
+            //TODO: 傳user to 後端
+            axios
+            .post(`/api/user/give`, give_transfer)
+            .then(function(res) {
+            console.log(res.data.msg);
+            // console.log(res.data.msg2);
+            // window.location = "/index";
+            Swal.fire({
+            title: "已發送點數!",
+            type: "success"
+            });
+            })
+            .catch(function(err) {
+            console.log(err);
+            // window.location = "/index";
+            Swal.fire({
+            title: "發送失敗!",
+            type: "error"
+            });
+            });
+
+            });//give罪外
+
+
+            //第二名
+            $(`#2givePoint`).click(function (e) {
+
+              e.preventDefault();
+              console.log("發送出去了")
+              console.log($("#2lo_rank").text())
+              let rank = $("#2lo_rank").text().substring(4, 5)
+              console.log(rank)
+              console.log($("#2user_id").text())
+              let id = $("#2user_id").text();
+
+              //   console.log($(".givepointA").)
+              //   Swal.fire({
+              //   title: "已發送點數!",
+              //   type: "success"
+              //   });
+
+
+              const give_transfer = {
+                giver: 'goverment',
+                receiver: id,
+                rank: rank,
+                time_num: new Date().getTime()
+              };
+
+
+              console.log("[發送獎勵]", give_transfer);
+              // console.log(pid);
+              //TODO: 傳user to 後端
+              axios
+                .post(`/api/user/give`, give_transfer)
+                .then(function (res) {
+                  console.log(res.data.msg);
+                  // console.log(res.data.msg2);
+                  // window.location = "/index";
+                  Swal.fire({
+                    title: "已發送點數!",
+                    type: "success"
+                  });
+                })
+                .catch(function (err) {
+                  console.log(err);
+                  // window.location = "/index";
+                  Swal.fire({
+                    title: "發送失敗!",
+                    type: "error"
+                  });
+                });
+
+            });//give罪外
+
+            $(`#2givePoint`).click(function (e) {
+
+              e.preventDefault();
+              console.log("發送出去了")
+              console.log($("#2lo_rank").text())
+              let rank = $("#2lo_rank").text().substring(4, 5)
+              console.log(rank)
+              console.log($("#2user_id").text())
+              let id = $("#2user_id").text();
+
+              //   console.log($(".givepointA").)
+              //   Swal.fire({
+              //   title: "已發送點數!",
+              //   type: "success"
+              //   });
+
+
+              const give_transfer = {
+                giver: 'goverment',
+                receiver: id,
+                rank: rank,
+                time_num: new Date().getTime()
+              };
+
+
+              console.log("[發送獎勵]", give_transfer);
+              // console.log(pid);
+              //TODO: 傳user to 後端
+              axios
+                .post(`/api/user/give`, give_transfer)
+                .then(function (res) {
+                  console.log(res.data.msg);
+                  // console.log(res.data.msg2);
+                  // window.location = "/index";
+                  Swal.fire({
+                    title: "已發送點數!",
+                    type: "success"
+                  });
+                })
+                .catch(function (err) {
+                  console.log(err);
+                  // window.location = "/index";
+                  Swal.fire({
+                    title: "發送失敗!",
+                    type: "error"
+                  });
+                });
+
+            });//give罪外
+
+            $(`#3givePoint`).click(function (e) {
+
+              e.preventDefault();
+              console.log("發送出去了")
+              console.log($("#3lo_rank").text())
+              let rank = $("#3lo_rank").text().substring(4, 5)
+              console.log(rank)
+              console.log($("#3user_id").text())
+              let id = $("#3user_id").text();
+
+              //   console.log($(".givepointA").)
+              //   Swal.fire({
+              //   title: "已發送點數!",
+              //   type: "success"
+              //   });
+
+
+              const give_transfer = {
+                giver: 'goverment',
+                receiver: id,
+                rank: rank,
+                time_num: new Date().getTime()
+              };
+
+
+              console.log("[發送獎勵]", give_transfer);
+              // console.log(pid);
+              //TODO: 傳user to 後端
+              axios
+                .post(`/api/user/give`, give_transfer)
+                .then(function (res) {
+                  console.log(res.data.msg);
+                  // console.log(res.data.msg2);
+                  // window.location = "/index";
+                  Swal.fire({
+                    title: "已發送點數!",
+                    type: "success"
+                  });
+                })
+                .catch(function (err) {
+                  console.log(err);
+                  // window.location = "/index";
+                  Swal.fire({
+                    title: "發送失敗!",
+                    type: "error"
+                  });
+                });
+
+            });//give罪外
+
+
+          });//篩選最外
+        </script>
+</body>
+
+</html>
