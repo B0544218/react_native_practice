@@ -1,0 +1,193 @@
+@charset "UTF-8";
+/*
+    安裝node-sass指令
+    PC:npm install -g node-sass
+    Mac:sudo npm install -g node-sass --unsafe-perm
+    
+    翻譯SCSS變成CSS檔案的指令
+    node-sass -o CSS檔案要放的資料夾 SCSS檔案所放的資料夾 -w
+    node-sass -o css scss -w
+*/
+/*=============================================
+=                  General                    =
+=============================================*/
+* {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+button:focus {
+  outline: none;
+}
+
+/* .btn-primary {
+    background-color: red;
+} */
+/*=============================================
+=                  Navbar                     =
+=============================================*/
+.navbar {
+  -webkit-box-shadow: 0 3px 18px rgba(0, 0, 0, 0.11);
+  box-shadow: 0 3px 18px rgba(0, 0, 0, 0.11);
+}
+
+/*=============================================
+=                  Header                     =
+=============================================*/
+#header {
+  background-image: url("../img/headerImage.jpg");
+  background-size: cover;
+  /* height: 100%; */
+  padding: 200px 0px;
+  border-radius: 0px;
+  margin-bottom: 0px;
+  /* filter: brightness(0.5); */
+  position: relative;
+}
+
+#header:before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: block;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  z-index: 1;
+}
+
+#header > .container {
+  position: relative;
+  z-index: 2;
+}
+
+/*=============================================
+=                  Intro                      =
+=============================================*/
+/*=============================================
+=                  Features                   =
+=============================================*/
+/*=============================================
+=                  Reviews                    =
+=============================================*/
+.review-group {
+  height: 220px;
+}
+
+@media (max-width: 767px) {
+  .review-group {
+    height: 300px;
+  }
+}
+
+@media (max-width: 576px) {
+  .review-group {
+    height: 750px;
+  }
+}
+
+/*=============================================
+=                  Gallery                    =
+=============================================*/
+/* TODO: 設定Hover特效 */
+/* 
+    屬性選擇器
+    [屬性名稱^='屬性值']
+    [href^='https://www.google'] 選到href開頭是https://www.google的元素
+    [href$='.pdf'] 選到href結尾是.pdf的元素
+    [href*='google'] 選到href包含google的元素
+*/
+/* 選到id開頭是galleryImage的元素 */
+[id^="galleryImage"] {
+  background-size: cover;
+  height: 250px;
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+  -webkit-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+}
+
+[id^="galleryImage"] > .gallery-text {
+  opacity: 0;
+  font-size: 6px;
+  line-height: 250px;
+  color: white;
+  text-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  -webkit-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+}
+
+[id^="galleryImage"]:hover {
+  -webkit-filter: grayscale(0%);
+  filter: grayscale(0%);
+}
+
+[id^="galleryImage"]:hover > .gallery-text {
+  opacity: 1;
+  font-size: 22px;
+}
+
+/* 放入背景圖片 */
+#galleryImage1 {
+  background-image: url("../img/galleryImage1.jpg");
+}
+
+#galleryImage2 {
+  background-image: url("../img/galleryImage2.jpg");
+}
+
+#galleryImage3 {
+  background-image: url("../img/galleryImage3.jpg");
+}
+
+#galleryImage4 {
+  background-image: url("../img/galleryImage4.jpg");
+}
+
+#galleryImage5 {
+  background-image: url("../img/galleryImage5.jpg");
+}
+
+#galleryImage6 {
+  background-image: url("../img/galleryImage6.jpg");
+}
+
+#galleryImage7 {
+  background-image: url("../img/galleryImage7.jpg");
+}
+
+#galleryImage8 {
+  background-image: url("../img/galleryImage8.jpg");
+}
+
+/*=============================================
+=                  Start Now                  =
+=============================================*/
+/*=============================================
+=                   Footer                    =
+=============================================*/
+footer ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-end p {
+  font-size: 8px;
+  margin: 0;
+}
+
+#goBackBtn {
+  width: 40px;
+  height: 40px;
+  border: none;
+}
+/*# sourceMappingURL=style.css.map */
